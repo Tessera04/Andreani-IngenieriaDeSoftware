@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingresar — Andreani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --rojo:#E4002B; --tinta:#20222e; }
+    * { box-sizing:border-box; }
+    body { font-family: 'Poppins', system-ui, "Segoe UI", Arial, sans-serif; margin:0;
+           background:#f4f4f4; color:var(--tinta); min-height:100vh;
+           display:flex; flex-direction:column; }
+    .nav { background:#fff; display:flex; align-items:center; gap:30px;
+           padding:12px calc(max(0px, (100% - 1536px) / 2) + 16px)
+                   12px calc(max(0px, (100% - 1536px) / 2) + 42px);
+           border-bottom:1px solid #eee; }
+    .logo { display:flex; align-items:center; gap:8px; font-weight:800;
+            letter-spacing:.5px; color:var(--rojo); font-size:20px; }
+    .logo .badge { width:26px; height:26px; border:2.5px solid var(--rojo);
+            border-radius:50%; display:flex; align-items:center; justify-content:center;
+            font-size:14px; font-weight:900; font-style:italic; }
+    .menu { display:flex; gap:22px; flex:1; font-size:15px; color:#222; }
+    .menu span { cursor:default; user-select:none; white-space:nowrap; }
+    .btn-ingresar { border:1.5px solid var(--rojo); color:var(--rojo); text-decoration:none;
+            display:inline-flex; align-items:center; justify-content:center; width:120px; height:40px;
+            border-radius:22px; font-weight:500; font-size:15px; }
+    main { flex:1; display:flex; justify-content:center; align-items:flex-start; padding:60px 20px; }
+    .card { width:380px; background:#fff; border-radius:10px;
+            box-shadow:0 2px 14px rgba(0,0,0,.07); padding:34px; }
+    h1 { font-size:24px; margin:0 0 20px; }
+    label { display:block; font-size:13px; color:#555; margin:14px 0 4px; }
+    input { width:100%; padding:12px; border:1px solid #cfcfcf; border-radius:6px; font-size:15px; }
+    .btn { width:100%; margin-top:22px; background:var(--rojo); color:#fff; border:0;
+           padding:13px; border-radius:22px; font-size:15px; font-weight:600; cursor:pointer; }
+    .volver { display:inline-block; margin-top:16px; color:#2962ff; text-decoration:none; font-size:14px; }
+    .msg { background:#fff4e5; border:1px solid #ffcc80; padding:10px 12px; border-radius:8px; margin-bottom:14px; font-size:14px; }
+    .aviso { background:#2b2b2b; color:#ddd; text-align:center; padding:9px; font-size:12px; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="logo"><span class="badge">A</span>ANDREANI</div>
+    <div class="menu">
+      <span>Seguir envíos ▾</span><span>Hacer envíos ▾</span><span>Asistencia ▾</span>
+      <span>Sucursales ▾</span><span>Para tu negocio ▾</span><span>Comunidad Emprendedora</span>
+    </div>
+    <a class="btn-ingresar" href="/login">Ingresar</a>
+  </header>
+
+  <main>
+    <div class="card">
+      <h1>Ingresá a tu cuenta</h1>
+      <!--MSG-->
+      <form method="post" action="/login">
+        <label>E-mail o usuario</label>
+        <input type="text" name="usuario" autocomplete="off">
+        <label>Contraseña</label>
+        <input type="password" name="password">
+        <button class="btn" type="submit">Ingresar</button>
+      </form>
+      <a class="volver" href="/">← Volver al seguimiento</a>
+    </div>
+  </main>
+
+  <footer class="aviso">PROTOTIPO ACADÉMICO · UADE · datos ficticios · no es el sitio real de Andreani</footer>
+</body>
+</html>

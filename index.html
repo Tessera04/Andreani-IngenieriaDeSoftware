@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seguí tu envío ahora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --rojo:#E4002B; --tinta:#20222e; --fuente:'Poppins', system-ui, "Segoe UI", Arial, sans-serif;
+            --contenedor:1536px;  /* ancho de la caja gris centrada, como en andreani.com */ }
+    * { box-sizing:border-box; }
+    body { font-family:var(--fuente); margin:0; background:#fff; color:var(--tinta);
+           min-height:100vh; display:flex; flex-direction:column; }
+
+    /* ---------- NAV ---------- */
+    /* El padding lateral alinea logo y botón con la caja gris de abajo */
+    .nav { background:#fff; display:flex; align-items:center; gap:30px;
+           padding:12px calc(max(0px, (100% - var(--contenedor)) / 2) + 16px)
+                   12px calc(max(0px, (100% - var(--contenedor)) / 2) + 42px);
+           border-bottom:1px solid #eee; position:relative; z-index:2; }
+    .logo { display:flex; align-items:center; gap:8px; font-weight:800;
+            letter-spacing:.5px; color:var(--rojo); font-size:20px; }
+    .logo .badge { width:26px; height:26px; border:2.5px solid var(--rojo);
+            border-radius:50%; display:flex; align-items:center; justify-content:center;
+            font-size:14px; font-weight:800; font-style:italic; }
+    .menu { display:flex; gap:22px; flex:1; font-size:15px; color:#222; font-weight:400; }
+    .menu span { cursor:default; user-select:none; white-space:nowrap; }
+    .btn-ingresar { border:1.5px solid var(--rojo); color:var(--rojo); text-decoration:none;
+            display:inline-flex; align-items:center; justify-content:center; width:120px; height:40px;
+            border-radius:22px; font-weight:500; font-size:15px; transition:all .15s; }
+    .btn-ingresar:hover { background:var(--rojo); color:#fff; }
+
+    /* ---------- CONTENIDO con fondo SVG ---------- */
+    /* Caja gris centrada con blanco a los costados; la tarjeta queda a 75px del nav y 32px del borde */
+    main { flex:1; width:100%; max-width:var(--contenedor); margin:0 auto;
+           padding:75px 32px 60px; min-height:660px;
+           background:#DFE1E3 url('/fondo.svg') no-repeat center top; background-size:cover; }
+    .card { width:630px; max-width:100%; min-height:520px; background:#fff; border-radius:4px;
+            box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; position:relative; z-index:1; }
+    /* Pestañas a mitad y mitad: la activa blanca con línea roja, la inactiva gris */
+    .tabs { display:flex; }
+    .tab { flex:1; text-align:center; padding:12px 0 13px; font-size:16px; color:#9a9a9a;
+           background:#f5f5f5; box-shadow:inset 0 -1px 0 #e3e3e3; cursor:default; }
+    .tab + .tab { border-left:1px solid #e3e3e3; }
+    .tab.active { background:#fff; color:var(--tinta); font-weight:600; box-shadow:inset 0 -3px 0 var(--rojo); }
+    .card-body { padding:28px 32px 40px; }
+    h1 { font-size:40px; font-weight:500; line-height:1.2; margin:0; }
+    .sub { color:#333; font-size:18px; margin:0 0 48px; }
+    .search { display:flex; }
+    .search input { flex:1; min-width:0; padding:12px 16px; font-size:16px; font-family:var(--fuente);
+            border:1px solid #8f8f8f; border-right:0; border-radius:4px 0 0 4px; }
+    .search button { background:var(--rojo); border:0; width:49px; border-radius:0 4px 4px 0;
+            cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .hint { font-style:italic; color:#333; font-size:14px; margin:12px 0 50px; }
+    .nonumber { color:#333; font-size:14px; }
+    .nonumber strong { display:block; font-size:16px; font-weight:600; margin-bottom:8px; }
+    .nonumber a { color:#3f51b5; text-decoration:none; }
+
+    /* ---------- RESULTADOS (solo demo) ---------- */
+    .res { margin-top:22px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th,td { border:1px solid #e3e3e3; padding:8px 10px; text-align:left; }
+    th { background:#fafafa; }
+    .alerta { background:#fff4e5; border:1px solid #ffcc80; padding:10px 12px; border-radius:8px; margin-bottom:12px; }
+    .okmsg { background:#e8f5e9; border:1px solid #a5d6a7; padding:10px 12px; border-radius:8px; }
+    .bloqueo { background:#fdecea; border:1px solid #e4002b; color:#8a1016; padding:14px 16px;
+               border-radius:8px; font-size:15px; line-height:1.5; }
+    .sql { background:#1e1e1e; color:#9cdcfe; padding:10px 12px; border-radius:8px;
+            font-family:monospace; font-size:13px; white-space:pre-wrap; margin-top:12px; }
+
+    /* ---------- RADIO ESCONDIDO ---------- */
+    .modo { position:fixed; left:12px; bottom:12px; font-size:11px; color:#bbb;
+            opacity:.3; transition:opacity .2s; background:#fff; border:1px solid #eee;
+            border-radius:6px; padding:5px 8px; z-index:3; }
+    .modo:hover { opacity:1; }
+    .modo label { margin-right:8px; cursor:pointer; }
+
+    /* ---------- CARTEL DE EJEMPLO (al pie) ---------- */
+    .aviso { background:#2b2b2b; color:#ddd; text-align:center; padding:9px; font-size:12px;
+             position:relative; z-index:2; }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="logo"><span class="badge">A</span>ANDREANI</div>
+    <div class="menu">
+      <span>Seguir envíos ▾</span>
+      <span>Hacer envíos ▾</span>
+      <span>Asistencia ▾</span>
+      <span>Sucursales ▾</span>
+      <span>Para tu negocio ▾</span>
+      <span>Comunidad Emprendedora</span>
+    </div>
+    <a class="btn-ingresar" href="/login">Ingresar</a>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="tabs">
+        <span class="tab active">Seguir envío</span>
+        <span class="tab">Cotizar envío</span>
+      </div>
+      <div class="card-body">
+      <h1>Seguí tu envío ahora</h1>
+      <p class="sub">Conocé el estado de tus envíos en todo momento.</p>
+
+      <form method="get" action="/">
+        <div class="search">
+          <input type="text" name="q" placeholder="Ingresá el número de seguimiento" value="<!--QUERY-->">
+          <button type="submit" aria-label="Buscar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+            </svg>
+          </button>
+        </div>
+        <p class="hint">Sin guiones ni puntos. Ej. 360000000000000</p>
+
+        <div class="nonumber">
+          <strong>¿No tenés el número de seguimiento?</strong>
+          <a href="/login">Iniciá sesión o registrate</a> para ver todos los envíos asociados a tu e-mail o DNI.
+        </div>
+
+        <div class="res"><!--RESULTADOS--></div>
+
+        <div class="modo" title="modo de demostración">
+          <label><input type="radio" name="modo" value="vulnerable" onchange="this.form.submit()" <!--CHK_V-->> vuln</label>
+          <label><input type="radio" name="modo" value="seguro" onchange="this.form.submit()" <!--CHK_S-->> seg</label>
+        </div>
+      </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="aviso">PROTOTIPO ACADÉMICO · UADE · datos ficticios · no es el sitio real de Andreani</footer>
+</body>
+</html>
