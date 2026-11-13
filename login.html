@@ -37,6 +37,12 @@
            padding:13px; border-radius:22px; font-size:15px; font-weight:600; cursor:pointer; }
     .volver { display:inline-block; margin-top:16px; color:#2962ff; text-decoration:none; font-size:14px; }
     .msg { background:#fff4e5; border:1px solid #ffcc80; padding:10px 12px; border-radius:8px; margin-bottom:14px; font-size:14px; }
+    .modo { position:fixed; left:12px; bottom:12px; font-size:11px; color:#bbb;
+            opacity:.3; transition:opacity .2s; background:#fff; border:1px solid #eee;
+            border-radius:6px; padding:5px 8px; }
+    .modo:hover { opacity:1; }
+    .modo label { display:inline; margin:0 8px 0 0; font-size:11px; color:#bbb; cursor:pointer; }
+    .modo input { width:auto; padding:0; }
     .aviso { background:#2b2b2b; color:#ddd; text-align:center; padding:9px; font-size:12px; }
   </style>
 </head>
@@ -60,8 +66,12 @@
         <label>Contraseña</label>
         <input type="password" name="password">
         <button class="btn" type="submit">Ingresar</button>
+        <div class="modo" title="modo de demostración">
+          <label><input type="radio" name="modo" value="vulnerable" <!--CHK_V-->> vuln</label>
+          <label><input type="radio" name="modo" value="seguro" <!--CHK_S-->> seg</label>
+        </div>
       </form>
-      <a class="volver" href="/">← Volver al seguimiento</a>
+      <a class="volver" href="/?modo=<!--MODO-->">← Volver al seguimiento</a>
     </div>
   </main>
 
